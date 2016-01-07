@@ -1,0 +1,4 @@
+# can_sin extension
+comment = 'Canada Social Insurance Number data type'
+default_version = '0.0.1'
+relocatable = false
