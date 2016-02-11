@@ -47,7 +47,7 @@ LANGUAGE C IMMUTABLE STRICT;
 -- to/from text conversion
 CREATE OR REPLACE FUNCTION can_sin_to_text(can_sin) RETURNS text AS '$libdir/can_sin'
 LANGUAGE C IMMUTABLE STRICT;
-CREATE OR REPLACE FUNCTION text_to_can_sin(text) RETURNS can_sin AS '$libdir/can_sin'
+CREATE OR REPLACE FUNCTION can_sin_from_text(text) RETURNS can_sin AS '$libdir/can_sin'
 LANGUAGE C IMMUTABLE STRICT;
 
 -- operators
@@ -116,7 +116,7 @@ CREATE OPERATOR CLASS can_sin_ops DEFAULT FOR TYPE can_sin USING btree AS
 	FUNCTION 1 can_sin_cmp(can_sin, can_sin);
 -- cast from/to text
 CREATE CAST (can_sin AS text) WITH FUNCTION can_sin_to_text(can_sin) AS ASSIGNMENT;
-CREATE CAST (text AS can_sin) WITH FUNCTION text_to_can_sin(text) AS ASSIGNMENT;
+CREATE CAST (text AS can_sin) WITH FUNCTION can_sin_from_text(text) AS ASSIGNMENT;
 
 /* Does this survive a pg_dump?
 CREATE CAST (int     AS can_sin) WITHOUT FUNCTION AS ASSIGNMENT;

@@ -19,7 +19,7 @@ typedef uint32 can_sin_t;
 Datum can_sin_in(PG_FUNCTION_ARGS);
 Datum can_sin_out(PG_FUNCTION_ARGS);
 Datum can_sin_to_text(PG_FUNCTION_ARGS);
-Datum text_to_can_sin(PG_FUNCTION_ARGS);
+Datum can_sin_from_text(PG_FUNCTION_ARGS);
 Datum can_sin_send(PG_FUNCTION_ARGS);
 Datum can_sin_recv(PG_FUNCTION_ARGS);
 Datum can_sin_lt(PG_FUNCTION_ARGS);
@@ -77,9 +77,9 @@ can_sin_to_text(PG_FUNCTION_ARGS)
 	PG_RETURN_TEXT_P(can_sin_text);
 }
 
-PG_FUNCTION_INFO_V1(text_to_can_sin);
+PG_FUNCTION_INFO_V1(can_sin_from_text);
 Datum
-text_to_can_sin(PG_FUNCTION_ARGS)
+can_sin_from_text(PG_FUNCTION_ARGS)
 {
 	text  *can_sin_text = PG_GETARG_TEXT_P(0);
 	char  *can_sin_str = DatumGetCString(DirectFunctionCall1(textout, PointerGetDatum(can_sin_text)));
@@ -396,7 +396,7 @@ can_sin_to_cstring(can_sin_t can_sin)
                 (errmsg("Invalid data."),
                  errhint("The SIN data is out of range.")));
 
-    digit_value = remainder * .00000001;
+    /*digit_value = remainder * .00000001;
     can_sin_str[0] = '0' + digit_value;
     remainder = remainder - digit_value * 100000000;
     digit_value = remainder * .0000001;
@@ -423,9 +423,9 @@ can_sin_to_cstring(can_sin_t can_sin)
     can_sin_str[9] = '0' + digit_value;
     remainder = remainder - digit_value * 10;
     can_sin_str[10] = '0' + remainder;
-    can_sin_str[11] = '\0';
+    can_sin_str[11] = '\0';*/
 
-    /*can_sin_str[11] = '\0';
+    can_sin_str[11] = '\0';
     can_sin_str[10] = '0' + remainder % 10;
     remainder *= .1;
     can_sin_str[9] = '0' + remainder % 10;
@@ -444,7 +444,7 @@ can_sin_to_cstring(can_sin_t can_sin)
     remainder *= .1;
     can_sin_str[1] = '0' + remainder % 10;
     remainder *= .1;
-    can_sin_str[0] = '0' + remainder % 10;*/
+    can_sin_str[0] = '0' + remainder % 10;
 
     return can_sin_str;
 }
